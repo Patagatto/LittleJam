@@ -13,4 +13,14 @@ UCLASS(Abstract)
 class LITTLEJAM_API ALJPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+	
+protected:
+	virtual void BeginPlay() override;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> WidgetClass;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	UUserWidget* MyWidgetInstance;
+	
 };
