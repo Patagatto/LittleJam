@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BulletActor.h"
 #include "Components/SplineComponent.h"
 #include "Components/MeshComponent.h"
 #include "Components/SceneComponent.h"
@@ -30,6 +31,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	USceneComponent* BulletSpawnComp;
+	
+	UPROPERTY(EditAnywhere)
+	UClass* BulletClass;
 	
 	UPROPERTY()
 	FVector SpawnLocation;
