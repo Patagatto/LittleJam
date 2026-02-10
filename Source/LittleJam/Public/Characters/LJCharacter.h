@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InputMappingContext.h"
+#include "EnhancedInputSubsystems.h"
 #include "LJCharacter.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class LITTLEJAM_API ALJCharacter : public ACharacter
 {
 	GENERATED_BODY()
@@ -18,6 +20,23 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputMappingContext* DefaultMappingContext;
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputAction* MoveAction;
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputAction* LookAction;
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputAction* JumpAction;
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	UInputAction* ShootAction;
+	
+	UFUNCTION(BlueprintCallable)
+	void Move(FVector2D Value);
+	
+	UFUNCTION(BlueprintCallable)
+	void Look(FVector2D Value);
 
 public:
 	// Called every frame

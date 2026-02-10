@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class LITTLEJAM_API ALJPlayerController : public APlayerController
 {
 	GENERATED_BODY()

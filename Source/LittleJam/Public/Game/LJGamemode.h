@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class LITTLEJAM_API ALJGamemode : public AGameModeBase
 {
 	GENERATED_BODY()
