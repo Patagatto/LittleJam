@@ -13,7 +13,7 @@ ULJLifeComponent::ULJLifeComponent()
 	// ...
 }
 
-bool ULJLifeComponent::ApplyDamage(float Amount)
+bool ULJLifeComponent::ApplyDamage(int32 Amount)
 {
 	//Dentro un if alla fine di qualsiasi cosa che facciamo ci deve essere TRUE o FALSE
 	if (IsDead)
@@ -29,6 +29,7 @@ bool ULJLifeComponent::ApplyDamage(float Amount)
 
 	//Questo � equivalente a CurrentHealth = CurrentHealth - Amount;
 	CurrentHealth -= Amount;
+	HealthUpdate.Broadcast(CurrentHealth);
 
 	if (CurrentHealth <= 0)
 	{

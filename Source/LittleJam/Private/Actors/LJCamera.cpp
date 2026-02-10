@@ -3,8 +3,9 @@
 
 #include "Actors/LJCamera.h"
 
+#include "LJLifeComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Customizations/MathStructProxyCustomizations.h"
+#include "Characters/LJCharacter.h"
 
 
 // Sets default values
@@ -17,6 +18,31 @@ ALJCamera::ALJCamera()
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(RootComponent);
+	
+	HearthContainer = CreateDefaultSubobject<USceneComponent>(TEXT("Hearth Container"));
+	HearthContainer->SetupAttachment(CameraComponent);
+	
+	HearthContainer->SetRelativeLocation(FVector(180.0f, 0.0f, 0.0f));
+	
+	float Spacing = 45.0f;
+
+	for (int i = 0; i < 3; i++)
+	{
+		FString HearthName = FString::Printf(TEXT("HearthMesh_%d"), i);
+		UStaticMeshComponent* NewHearth = CreateDefaultSubobject<UStaticMeshComponent>(*HearthName);
+		NewHearth->SetupAttachment(HearthContainer);
+		
+		float YPos = - (i * Spacing);
+		
+		NewHearth->SetRelativeLocation(FVector(0.0f, YPos, 0.0f));
+		
+		NewHearth->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		NewHearth->SetCastContactShadow(false);
+		NewHearth->SetRelativeScale3D(FVector(0.3f));
+		
+		HearthMeshes.Add(NewHearth);
+		
+	}
 
 	// Default Settings
 	FixedCameraRotation = FRotator(-90.0f, 0.0f, 00.0f);
@@ -28,7 +54,37 @@ void ALJCamera::BeginPlay()
 	Super::BeginPlay();
 	
 	SetActorRotation(FixedCameraRotation);
-	SetActorLocation(FVector(0.0f, 0.0f, 800.0f));
+	SetActorLocation(FVector(0.0f, 0.0f, 1200.0f));
+	
+	
+}
+
+void ALJCamera::UpdateHealth(int32 CurrentHealth)
+{
+	for (int i = 0; i < HearthMeshes.Num(); ++i)
+	{
+		if (HearthMeshes[i] && i < CurrentHealth)
+		{
+			HearthMeshes[i]->SetStaticMesh(DeathMesh);
+		}
+	}
+}
+
+void ALJCamera::BindToHealthComponent()
+{
+	if (ALJCharacter* Character = Cast<ALJCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+	{
+		ULJLifeComponent* LifeComponent = Character->GetComponentByClass<ULJLifeComponent>();
+
+		if (LifeComponent)
+		{
+			LifeComponent->HealthUpdate.AddDynamic(this, &ALJCamera::UpdateHealth);
+		}
+	}
+	else
+	{
+		GetWorldTimerManager().SetTimer(HealthTimerHandle, this, &ALJCamera::BindToHealthComponent, 0.1f, false);
+	}
 }
 
 // Called every frame

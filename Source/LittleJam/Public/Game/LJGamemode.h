@@ -18,6 +18,7 @@ class LITTLEJAM_API ALJGamemode : public AGameModeBase
 	
 public:
 	ALJGamemode();
+	
 	virtual void BeginPlay() override;
 	
 	virtual void Tick( float DeltaTime ) override;

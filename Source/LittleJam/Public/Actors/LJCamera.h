@@ -22,6 +22,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	class UCameraComponent* CameraComponent;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	class USceneComponent* HearthContainer;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ui")
+	UStaticMesh* DeathMesh;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TArray<class UStaticMeshComponent*> HearthMeshes;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Settings")
 	FRotator FixedCameraRotation;
@@ -29,6 +37,13 @@ protected:
 	/** Base distance from the centroid of players. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Settings")
 	float BaseDistance;
+	
+	UFUNCTION(BlueprintCallable, Category = "Camera")
+	void UpdateHealth(int32 CurrentHealth);
+
+	void BindToHealthComponent();
+	
+	FTimerHandle HealthTimerHandle;
 
 public:
 	// Called every frame
