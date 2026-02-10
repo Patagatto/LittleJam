@@ -6,7 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "LJGamemode.generated.h"
 
-DECLARE_MULTICAST_DELEGATE(FOnUpgradeTimeReached);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUpgradeTimeReached);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTimeUpdated, float, NewTime);
 /**
  * 
@@ -36,6 +36,7 @@ protected:
 	
 	FTimerHandle UpgradeTimerHandle;
 	
+	UFUNCTION()
 	void UpgradeDifficulty();
 	
 	void AssignCamera(APlayerController* Controller);
