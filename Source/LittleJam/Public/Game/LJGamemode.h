@@ -36,4 +36,6 @@ protected:
 	FTimerHandle UpgradeTimerHandle;
 	
 	void UpgradeDifficulty();
+	
+	void AssignCamera(APlayerController* Controller);
 };

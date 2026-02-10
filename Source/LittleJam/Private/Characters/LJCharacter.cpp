@@ -3,12 +3,28 @@
 
 #include "LittleJam/Public/Characters/LJCharacter.h"
 
+#include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+
 
 // Sets default values
 ALJCharacter::ALJCharacter()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 640.0f, 0.0f);
+	
+	
+	
+	//Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
 }
 
 // Called when the game starts or when spawned
@@ -24,7 +40,6 @@ void ALJCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-	
 }
 
 // Called every frame
