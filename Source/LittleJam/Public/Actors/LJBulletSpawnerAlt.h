@@ -9,7 +9,7 @@
 /**
  * 
  */
-UENUM()
+UENUM(BlueprintType)
 enum EShootingType
 {
 	Single UMETA(DisplayName="Single"),
