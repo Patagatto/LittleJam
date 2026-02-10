@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SplineComponent.h"
+#include "Components/MeshComponent.h"
+#include "Components/SceneComponent.h"
 #include "GameFramework/Actor.h"
 #include "LJBulletSpawner.generated.h"
 
@@ -16,11 +19,57 @@ public:
 	ALJBulletSpawner();
 
 protected:
-	// Called when the game starts or when spawned
+	/* ----- Properties ----- */
+	// Actor properties
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UStaticMeshComponent* MeshComp;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	USceneComponent* BulletSpawnComp;
+	
+	UPROPERTY()
+	FVector SpawnLocation;
+	
+	// Locomotion properties
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	USplineComponent* MovementSpline;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Locomotion")
+	bool CanMove = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Locomotion")
+	float MoveSpeed;
+	
+	float Direction = 1.0f;
+	
+	// SpawnRate properties
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn")
+	float InitSpawnRate = 2.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn")
+	float OffsetRate;
+	
+	float CurrSpawnRate;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn")
+	float MaxSpawnRate = 0.5f;
+		
+	FTimerHandle BulletTimer;
+	
+	/* ----- Functions ----- */
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+	// Functions
 	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION(BlueprintCallable)
+	void InitializeSpawner();
+	
+	UFUNCTION()
+	void SpawnBullet();
+	
+	UFUNCTION()
+	void UpgradeDifficulty();
 
 };
