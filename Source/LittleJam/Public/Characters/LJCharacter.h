@@ -8,6 +8,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "LJCharacter.generated.h"
 
+class ULJLifeComponent;
 class USpringArmComponent;
 class UCameraComponent;
 
@@ -24,8 +25,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
-	//UStaticMeshComponent* Body;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	UInputMappingContext* DefaultMappingContext;
@@ -38,12 +37,29 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	UInputAction* ShootAction;
 	
+	UPROPERTY(EditDefaultsOnly, Category="Mesh")
+	UStaticMeshComponent* Cube;
+	
+	UPROPERTY(EditAnywhere, Category="Material")
+	UMaterialInstanceDynamic* DynamicMaterialInstance;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Component")
+	ULJLifeComponent* LifeComp;
 	
 	UFUNCTION(BlueprintCallable)
 	void Move(FVector2D Value);
 	
 	UFUNCTION(BlueprintCallable)
 	void Look(FVector2D Value);
+
+	FTimerHandle HitTimer;
+	
+	UFUNCTION()
+	void ActivateHit(int32 Value);
+	
+	UFUNCTION()
+	void DeactivateHit();
+
 
 public:
 	// Called every frame

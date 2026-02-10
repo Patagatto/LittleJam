@@ -28,11 +28,10 @@ public:
 	FOnTimeUpdated OnTimeUpdated;
 protected:
 	
-	
 	float ElapsedTime = 0.0f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float UpgradeTime = 30.0f;
+	float UpgradeTime = 10.0f;
 	
 	FTimerHandle UpgradeTimerHandle;
 	

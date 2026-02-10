@@ -3,9 +3,8 @@
 
 #include "LittleJam/Public/Characters/LJCharacter.h"
 
-#include "Camera/CameraComponent.h"
+#include "LJLifeComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 
 
 // Sets default values
@@ -21,6 +20,11 @@ ALJCharacter::ALJCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 640.0f, 0.0f);
+	
+	Cube = CreateDefaultSubobject<UStaticMeshComponent>("Cube");
+	Cube->SetupAttachment(GetMesh());
+	
+	LifeComp = CreateDefaultSubobject<ULJLifeComponent>("LifeComp");
 	
 	
 	
@@ -40,7 +44,16 @@ void ALJCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+			
+	DynamicMaterialInstance = Cube->CreateDynamicMaterialInstance(0);
+	DynamicMaterialInstance->SetVectorParameterValue("Color", FLinearColor(0.0f, 0.01f, 0.0f, 0.3f));
+		
+	if (LifeComp)
+	{
+		LifeComp->HealthUpdate.AddDynamic(this, &ALJCharacter::ActivateHit);
+	}
 }
+
 
 // Called every frame
 void ALJCharacter::Tick(float DeltaTime)
@@ -65,3 +78,17 @@ void ALJCharacter::Look(FVector2D Value)
 	AddControllerYawInput(Value.X);
 	AddControllerPitchInput(Value.Y);
 }
+
+void ALJCharacter::ActivateHit(int32 Value)
+{
+	DynamicMaterialInstance->SetVectorParameterValue("Color", FLinearColor(1.0f, 1.0f, 1.0f, 0.3f));
+	
+	GetWorld()->GetTimerManager().SetTimer(HitTimer, this, &ALJCharacter::DeactivateHit, 0.5f, false);
+}
+
+void ALJCharacter::DeactivateHit()
+{
+	DynamicMaterialInstance->SetVectorParameterValue("Color", FLinearColor(0.0f, 0.01f, 0.0f, 0.3f));
+}
+
+

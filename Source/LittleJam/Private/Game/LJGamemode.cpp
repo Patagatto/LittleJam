@@ -3,9 +3,7 @@
 
 #include "LittleJam/Public/Game/LJGamemode.h"
 
-#include "HeadMountedDisplayTypes.h"
 #include "Actors/LJCamera.h"
-#include "Game/LJPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 
 ALJGamemode::ALJGamemode()
