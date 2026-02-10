@@ -6,6 +6,7 @@
 #include "Components/SplineComponent.h"
 #include "Components/MeshComponent.h"
 #include "Components/SceneComponent.h"
+#include "Game/LJGamemode.h"
 #include "GameFramework/Actor.h"
 #include "LJBulletSpawner.generated.h"
 
@@ -14,13 +15,16 @@ class LITTLEJAM_API ALJBulletSpawner : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	// Sets default values for this actor's properties
 	ALJBulletSpawner();
 
 protected:
 	/* ----- Properties ----- */
 	// Actor properties
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	USceneComponent* RootSceneComp;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	UStaticMeshComponent* MeshComp;
 	
@@ -29,6 +33,9 @@ protected:
 	
 	UPROPERTY()
 	FVector SpawnLocation;
+	
+	UPROPERTY()
+	ALJGamemode* LJGamemode;
 	
 	// Locomotion properties
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
@@ -42,7 +49,7 @@ protected:
 	
 	float Direction = 1.0f;
 	
-	// SpawnRate properties
+	// Spawn properties
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn")
 	float InitSpawnRate = 2.0f;
 	
@@ -52,7 +59,7 @@ protected:
 	float CurrSpawnRate;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Spawn")
-	float MaxSpawnRate = 0.5f;
+	float MinSpawnRate = 0.5f;
 		
 	FTimerHandle BulletTimer;
 	
@@ -64,12 +71,15 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	UFUNCTION(BlueprintCallable)
-	void InitializeSpawner();
+	virtual void InitializeSpawner();
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void DeactivateSpawner();
 	
 	UFUNCTION()
-	void SpawnBullet();
+	virtual void SpawnBullet();
 	
 	UFUNCTION()
-	void UpgradeDifficulty();
+	virtual void UpgradeDifficulty();
 
 };
