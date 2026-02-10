@@ -38,7 +38,6 @@ ALJCamera::ALJCamera()
 		NewHearth->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		NewHearth->SetCastContactShadow(false);
 		NewHearth->SetRelativeScale3D(FVector(0.3f));
-		NewHearth->SetMaterial(0, CubeMaterial);
 		
 		HearthMeshes.Add(NewHearth);
 		
@@ -55,6 +54,11 @@ void ALJCamera::BeginPlay()
 	
 	SetActorRotation(FixedCameraRotation);
 	SetActorLocation(FVector(0.0f, 0.0f, 1200.0f));
+	
+	for (int i = 0; i < 3; i++)
+	{
+		HearthMeshes[i]->SetMaterial(0, CubeMaterial);
+	}
 	
 	BindToHealthComponent();
 }
