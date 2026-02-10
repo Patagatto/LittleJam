@@ -22,8 +22,7 @@ ALJCamera::ALJCamera()
 	HearthContainer = CreateDefaultSubobject<USceneComponent>(TEXT("Hearth Container"));
 	HearthContainer->SetupAttachment(CameraComponent);
 	
-	HearthContainer->SetRelativeLocation(FVector(180.0f, 0.0f, 0.0f));
-	
+	HearthContainer->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 	float Spacing = 45.0f;
 
 	for (int i = 0; i < 3; i++)
@@ -32,13 +31,14 @@ ALJCamera::ALJCamera()
 		UStaticMeshComponent* NewHearth = CreateDefaultSubobject<UStaticMeshComponent>(*HearthName);
 		NewHearth->SetupAttachment(HearthContainer);
 		
-		float YPos = - (i * Spacing);
+		float YPos = (i -2) * Spacing;
 		
 		NewHearth->SetRelativeLocation(FVector(0.0f, YPos, 0.0f));
 		
 		NewHearth->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		NewHearth->SetCastContactShadow(false);
 		NewHearth->SetRelativeScale3D(FVector(0.3f));
+		NewHearth->SetMaterial(0, CubeMaterial);
 		
 		HearthMeshes.Add(NewHearth);
 		
@@ -56,17 +56,27 @@ void ALJCamera::BeginPlay()
 	SetActorRotation(FixedCameraRotation);
 	SetActorLocation(FVector(0.0f, 0.0f, 1200.0f));
 	
-	
+	BindToHealthComponent();
 }
 
 void ALJCamera::UpdateHealth(int32 CurrentHealth)
 {
+	if (!SphereMesh) return;
+
 	for (int i = 0; i < HearthMeshes.Num(); ++i)
 	{
-		if (HearthMeshes[i] && i < CurrentHealth)
+		if (i < CurrentHealth)
 		{
-			HearthMeshes[i]->SetStaticMesh(DeathMesh);
+				HearthMeshes[i]->SetStaticMesh(CubeMesh);
+				HearthMeshes[i]->SetMaterial(0, CubeMaterial);
 		}
+		else
+		{
+			HearthMeshes[i]->SetStaticMesh(SphereMesh);
+			HearthMeshes[i]->SetMaterial(0, SphereMaterial);
+		}
+		
+		
 	}
 }
 

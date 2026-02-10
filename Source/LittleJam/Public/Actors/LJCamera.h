@@ -26,7 +26,16 @@ protected:
 	class USceneComponent* HearthContainer;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ui")
-	UStaticMesh* DeathMesh;
+	UStaticMesh* CubeMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ui")
+	UMaterialInterface* CubeMaterial;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ui")
+	UMaterialInterface* SphereMaterial;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ui")
+	UStaticMesh* SphereMesh;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TArray<class UStaticMeshComponent*> HearthMeshes;
