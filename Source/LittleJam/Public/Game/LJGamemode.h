@@ -6,11 +6,34 @@
 #include "GameFramework/GameModeBase.h"
 #include "LJGamemode.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FOnUpgradeTimeReached);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTimeUpdated, float, NewTime);
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class LITTLEJAM_API ALJGamemode : public AGameModeBase
 {
 	GENERATED_BODY()
+	
+public:
+	ALJGamemode();
+	virtual void BeginPlay() override;
+	
+	virtual void Tick( float DeltaTime ) override;
+	
+	FOnUpgradeTimeReached OnUpgradeTimeReached;
+	
+	FOnTimeUpdated OnTimeUpdated;
+protected:
+	
+	
+	float ElapsedTime = 0.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float UpgradeTime = 30.0f;
+	
+	FTimerHandle UpgradeTimerHandle;
+	
+	void UpgradeDifficulty();
 };

@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class LITTLEJAM_API ALJPlayerState : public APlayerState
 {
 	GENERATED_BODY()

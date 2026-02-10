@@ -16,6 +16,15 @@ void ALJCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		// Get the enhanced input local player subsystem and add a new input mapping context to it
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
+	
 }
 
 // Called every frame
@@ -30,3 +39,14 @@ void ALJCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+void ALJCharacter::Move(FVector2D Value)
+{
+	AddMovementInput(GetActorRightVector(), Value.X);
+	AddMovementInput(GetActorForwardVector(), Value.Y);
+}
+
+void ALJCharacter::Look(FVector2D Value)
+{
+	AddControllerYawInput(Value.X);
+	AddControllerPitchInput(Value.Y);
+}
