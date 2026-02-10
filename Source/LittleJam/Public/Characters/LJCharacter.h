@@ -8,6 +8,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "LJCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+
 UCLASS(Abstract)
 class LITTLEJAM_API ALJCharacter : public ACharacter
 {
@@ -21,6 +24,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
+	//UStaticMeshComponent* Body;
+	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	UInputMappingContext* DefaultMappingContext;
 	UPROPERTY(EditDefaultsOnly, Category="Input")
@@ -31,6 +37,7 @@ protected:
 	UInputAction* JumpAction;
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	UInputAction* ShootAction;
+	
 	
 	UFUNCTION(BlueprintCallable)
 	void Move(FVector2D Value);
