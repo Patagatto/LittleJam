@@ -69,6 +69,7 @@ protected:
 public:
 	/* ----- Properties ----- */
 	// Actor properties
+	UPROPERTY(EditAnywhere)
 	int32 Idx;
 	
 	/* ----- Functions ----- */
