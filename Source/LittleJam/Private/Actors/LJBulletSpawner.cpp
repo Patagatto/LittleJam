@@ -3,7 +3,6 @@
 
 #include "Actors/LJBulletSpawner.h"
 
-#include "Actors/BulletActor.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -70,8 +69,11 @@ void ALJBulletSpawner::SpawnBullet()
 	if (BulletClass)
 	{
 		AActor* BulletTempActor = GetWorld()->SpawnActor(BulletClass);
-		BulletTempActor->SetActorLocation(BulletSpawnComp->GetComponentLocation());
-		BulletTempActor->SetActorRotation(BulletSpawnComp->GetComponentRotation());
+		if (BulletTempActor)
+		{
+			BulletTempActor->SetActorLocation(BulletSpawnComp->GetComponentLocation());
+			BulletTempActor->SetActorRotation(BulletSpawnComp->GetComponentRotation());
+		}
 	}
 	
 	UE_LOG(LogTemp, Warning, TEXT("Spawning Bullet"));

@@ -82,8 +82,11 @@ void ALJCharacter::Look(FVector2D Value)
 void ALJCharacter::ActivateHit(int32 Value)
 {
 	DynamicMaterialInstance->SetVectorParameterValue("Color", FLinearColor(1.0f, 1.0f, 1.0f, 0.3f));
-	
-	GetWorld()->GetTimerManager().SetTimer(HitTimer, this, &ALJCharacter::DeactivateHit, 0.5f, false);
+
+	if (!GetWorld()->GetTimerManager().IsTimerActive(HitTimer))
+	{
+		GetWorld()->GetTimerManager().SetTimer(HitTimer, this, &ALJCharacter::DeactivateHit, 0.5f, false);
+	}
 }
 
 void ALJCharacter::DeactivateHit()
