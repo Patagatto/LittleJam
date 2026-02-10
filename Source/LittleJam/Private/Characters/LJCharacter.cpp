@@ -2,9 +2,13 @@
 
 
 #include "LittleJam/Public/Characters/LJCharacter.h"
+#include "EnhancedInputComponent.h"
+#include "Camera/CameraComponent.h"
 
 #include "LJLifeComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -42,6 +46,8 @@ void ALJCharacter::BeginPlay()
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+			UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerController->GetComponentByClass<UEnhancedInputComponent>());
+			EnhancedInputComponent->BindAction(RestartAction, ETriggerEvent::Started, this, &ALJCharacter::RestartLevel);
 		}
 	}
 			
@@ -65,6 +71,18 @@ void ALJCharacter::Tick(float DeltaTime)
 void ALJCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void ALJCharacter::RestartLevel()
+{
+	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		if (PlayerController->IsPaused())
+		{
+			FName LevelName(UGameplayStatics::GetCurrentLevelName(GetWorld()));
+			UGameplayStatics::OpenLevel(GetWorld(), LevelName);
+		}
+	}
 }
 
 void ALJCharacter::Move(FVector2D Value)

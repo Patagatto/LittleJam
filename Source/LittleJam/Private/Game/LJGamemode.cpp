@@ -19,8 +19,7 @@ void ALJGamemode::BeginPlay()
 	if (APlayerController* Controller = GetWorld()->GetFirstPlayerController())
 	{
 		AssignCamera(Controller);
-	}
-	
+	}	
 }
 
 void ALJGamemode::Tick(float DeltaTime)

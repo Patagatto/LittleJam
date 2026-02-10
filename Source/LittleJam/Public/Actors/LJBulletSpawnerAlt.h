@@ -51,5 +51,7 @@ public:
 	
 	virtual void SpawnBullet() override;
 	
+	void SpawnMultipleBullets(int32 B);
+	
 	virtual void UpgradeDifficulty() override;
 };

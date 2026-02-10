@@ -3,6 +3,9 @@
 
 #include "LJLifeComponent.h"
 
+#include "GameFramework/GameModeBase.h"
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values for this component's properties
 ULJLifeComponent::ULJLifeComponent()
 {
@@ -34,7 +37,7 @@ bool ULJLifeComponent::ApplyDamage(int32 Amount)
 	if (CurrentHealth <= 0)
 	{
 		IsDead = true;
-
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->SetPause(true);
 	}
 
 	return true;

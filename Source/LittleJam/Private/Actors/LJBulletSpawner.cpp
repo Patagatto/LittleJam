@@ -35,6 +35,10 @@ void ALJBulletSpawner::BeginPlay()
 	
 	LJGamemode = Cast<ALJGamemode>(UGameplayStatics::GetGameMode(GetWorld()));
 	if (LJGamemode) LJGamemode->OnUpgradeTimeReached.AddDynamic(this, &ALJBulletSpawner::UpgradeDifficulty);
+	
+	FTimerHandle UnusedHandle;
+	GetWorldTimerManager().SetTimer(
+		UnusedHandle, this, &ALJBulletSpawner::InitializeSpawner, 1.5f, false);
 }
 
 // Called every frame

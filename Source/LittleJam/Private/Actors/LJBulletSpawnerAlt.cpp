@@ -55,6 +55,16 @@ void ALJBulletSpawnerAlt::SpawnBullet()
 	}
 }
 
+void ALJBulletSpawnerAlt::SpawnMultipleBullets(int32 B)
+{
+	SetActorTickEnabled(false);
+	
+	for (int i = 0; i < B; i++)
+	{
+		
+	}
+}
+
 void ALJBulletSpawnerAlt::UpgradeDifficulty()
 {
 	Super::UpgradeDifficulty();
