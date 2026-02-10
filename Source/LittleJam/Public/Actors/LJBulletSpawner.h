@@ -66,8 +66,12 @@ protected:
 	/* ----- Functions ----- */
 	virtual void BeginPlay() override;
 
-public:	
-	// Functions
+public:
+	/* ----- Properties ----- */
+	// Actor properties
+	int32 Idx;
+	
+	/* ----- Functions ----- */
 	virtual void Tick(float DeltaTime) override;
 	
 	UFUNCTION(BlueprintCallable)
